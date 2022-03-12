@@ -18,11 +18,28 @@ namespace AddressBookSystem
             takeInputAndAddToContacts(addressBook);
             // called Print method 
             addressBook.print();
-            Console.WriteLine("Enter FirstName of Contact to be edited");
-            string firstNameOfContactToBeEdited = Console.ReadLine();
-            Console.WriteLine("Enter LastName of Contact to be edited");
-            string lastNameOfContactToBeEdited = Console.ReadLine();
-            addressBook.edit(firstNameOfContactToBeEdited, lastNameOfContactToBeEdited);
+            Console.WriteLine("What you want to perform ? Press 1 for Edit the details ,\n Press 2 for Delete  details : ");
+            int Selectchoice = Convert.ToInt32(Console.ReadLine());
+            switch (Selectchoice)
+            {
+
+                case 1:
+                    Console.WriteLine("Enter FirstName of Contact to be edited");
+                    string firstNameOfContactToBeEdited = Console.ReadLine();
+                    Console.WriteLine("Enter LastName of Contact to be edited");
+                    string lastNameOfContactToBeEdited = Console.ReadLine();
+                    break;
+                case 2:
+                    Console.WriteLine("Enter FirstName of Contact to be deleted");
+                    string firstNameOfContactToBeDeleted = Console.ReadLine();
+                    Console.WriteLine("Enter LastName of Contact to be deleted");
+                    string lastNameOfContactToBeDeleted = Console.ReadLine();
+                    addressBook.delete(firstNameOfContactToBeDeleted, lastNameOfContactToBeDeleted);
+                    break;
+                default:
+                    Console.WriteLine("Please enter the valid number : ");
+                    break;
+            }
             Console.ReadLine();
         }
         // take Input And Add To Contacts
@@ -41,10 +58,9 @@ namespace AddressBookSystem
             Console.WriteLine("Enter Zip");
             int zip = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter PhoneNumber");
-            long phoneNumber = Convert.ToInt32(Console.ReadLine());
+            long phoneNumber = long.Parse(Console.ReadLine());
             Console.WriteLine("Enter Email id");
             string email = Console.ReadLine();
-          
             addressBook.addContacts(firstName, lastName, address, city, state, zip, phoneNumber, email);
             Console.ReadLine();
         }
