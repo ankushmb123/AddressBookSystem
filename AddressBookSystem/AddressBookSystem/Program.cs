@@ -18,6 +18,11 @@ namespace AddressBookSystem
             takeInputAndAddToContacts(addressBook);
             // called Print method 
             addressBook.print();
+            Console.WriteLine("Enter FirstName of Contact to be edited");
+            string firstNameOfContactToBeEdited = Console.ReadLine();
+            Console.WriteLine("Enter LastName of Contact to be edited");
+            string lastNameOfContactToBeEdited = Console.ReadLine();
+            addressBook.edit(firstNameOfContactToBeEdited, lastNameOfContactToBeEdited);
             Console.ReadLine();
         }
         // take Input And Add To Contacts
@@ -36,9 +41,10 @@ namespace AddressBookSystem
             Console.WriteLine("Enter Zip");
             int zip = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter PhoneNumber");
-            long phoneNumber = long.Parse(Console.ReadLine());
+            long phoneNumber = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter Email id");
             string email = Console.ReadLine();
+          
             addressBook.addContacts(firstName, lastName, address, city, state, zip, phoneNumber, email);
             Console.ReadLine();
         }
