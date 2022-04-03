@@ -1,11 +1,11 @@
-﻿using System;
+﻿using CsvHelper;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using CsvHelper;
 
 namespace AddressBookSystem
 {
@@ -260,8 +260,8 @@ namespace AddressBookSystem
         public void ReadWriteasCsv()
         {
 
-            string importFilePath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\Text\import.csv";
-            string exportFilePath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\Text\export.csv";
+            string importFilePath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\book1\import.csv";
+            string exportFilePath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\book1\export.csv";
 
             using (var reader = new StreamReader(importFilePath))
             using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
@@ -276,6 +276,26 @@ namespace AddressBookSystem
                 using (var csvExport = new CsvWriter(writer, CultureInfo.CurrentCulture))
                 {
                     csvExport.WriteRecords(records);
+                }
+            }
+        }
+        public void ReadWriteinJson()
+        {
+            string importFilePath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\AddressBookeimport.json";
+            string exportFilePath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\AddressBookExport.json";
+            using (StreamReader reader = new StreamReader(importFilePath))
+            {
+                var json = reader.ReadToEnd();
+                var data = JsonConvert.DeserializeObject<List<Contact>>(json);
+                foreach (var contact in data)
+                {
+                    Console.WriteLine("\nfirstname: " + contact.firstname + "\nlastname: " + contact.lastname + "\naddress: " + contact.address + "\ncity: " + contact.city + "\nstate: " + contact.state + "\nzip: " + contact.zip + "\nphoneno: " + contact.phonenumber + "\nemail: " + contact.emailid);
+                }
+                JsonSerializer serializer = new JsonSerializer();
+                using (StreamWriter sw = new StreamWriter(exportFilePath))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, data);
                 }
             }
         }
