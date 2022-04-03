@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using CsvHelper;
 
 namespace AddressBookSystem
 {
@@ -231,7 +234,7 @@ namespace AddressBookSystem
         public void Readfile()
         {
             Console.WriteLine("The Contact List Using Stream Reader");
-            string filepath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\AddressBook.cs";
+            string filepath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\Text.txt";
 
             using (StreamReader reader = File.OpenText(filepath))
             {
@@ -245,12 +248,34 @@ namespace AddressBookSystem
         public void WriteUsingStreamWriter()
         {
             Console.WriteLine("The Contact List Using Stream Writer");
-            String path = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\AddressBook.cs";
+            String path = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\Text.txt";
             using (StreamWriter sr = File.AppendText(path))
             {
                 foreach (var contact in AddressList)
                 {
                     sr.WriteLine("\nfirstname: " + contact.firstname + "\nlastname: " + contact.lastname + "\naddress: " + contact.address + "\ncity: " + contact.city + "\nstate: " + contact.state + "\nzip: " + contact.zip + "\nphoneno: " + contact.phonenumber + "\nemail: " + contact.emailid);
+                }
+            }
+        }
+        public void ReadWriteasCsv()
+        {
+
+            string importFilePath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\Text\import.csv";
+            string exportFilePath = @"C:\User\@nkush\Addres_BookSystem\AddressBookSystem\AddressBookSystem\AddressBookSystem\Text\export.csv";
+
+            using (var reader = new StreamReader(importFilePath))
+            using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
+            {
+                var records = csv.GetRecords<Contact>().ToList();
+                foreach (var contact in records)
+                {
+                    Console.WriteLine("\nfirstname: " + contact.firstname + "\nlastname: " + contact.lastname + "\naddress: " + contact.address + "\ncity: " + contact.city + "\nstate: " + contact.state + "\nzip: " + contact.zip + "\nphoneno: " + contact.phonenumber + "\nemail: " + contact.emailid);
+                }
+
+                using (var writer = new StreamWriter(exportFilePath))
+                using (var csvExport = new CsvWriter(writer, CultureInfo.CurrentCulture))
+                {
+                    csvExport.WriteRecords(records);
                 }
             }
         }
